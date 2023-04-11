@@ -1,6 +1,7 @@
-export interface IProject {
+export interface Project {
+  id: string
   title: string
   description: string
-  user_ids: number[]
-  time_ids: number[]
+  user_ids: string[]
+  time_ids: string[]
 }
