@@ -1,5 +1,6 @@
 import { Project } from '../entities'
 
 export interface CreateProject {
-  create: (data: Omit<Project, 'id' | 'user_ids' | 'time_ids'>) => Promise<Project>
+  create: (data: CreateProjectParams) => Promise<Project>
 }
+export type CreateProjectParams = Omit<Project, 'id' | 'user_ids' | 'time_ids'>

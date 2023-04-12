@@ -28,6 +28,8 @@ export const ok = (data: any): HttpResponse => ({
 
 export const exceptionHandler = (exception: { statusCode: number, data: any }): any => {
   switch (exception.statusCode) {
+    case 400:
+      return badRequest(exception.data)
     case 403:
       return forbidden(exception.data)
     case 404:

@@ -1,11 +1,11 @@
 import { User } from '../entities'
 
 export interface UpdateUser {
-  update: (data: UpdateUserDTO) => Promise<User>
+  update: (data: UpdateUserParams) => Promise<User>
 }
 
-export interface UpdateUserDTO {
-  id: string
+export interface UpdateUserParams {
+  userId: string
   name?: string
   email?: string
   password?: string

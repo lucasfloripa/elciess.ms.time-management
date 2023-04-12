@@ -21,7 +21,7 @@ export class UpdateUserController implements Controller {
 }
 
 interface Request {
-  id: string
+  userId: string
   name?: string
   email?: string
   password?: string

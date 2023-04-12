@@ -1,8 +1,7 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { CreateUserController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, forbidden } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, serverError, ok } from '../../../src/presentation/helpers'
+import { EmailInUseError, ServerError } from '../../../src/presentation/errors'
 import { CreateUser } from '../../../src/domain/contracts'
 import { mockCreateUser } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -45,11 +44,11 @@ describe('CreateUserController', () => {
     const httpResponse = await sut.handle(mockRequest)
     expect(httpResponse).toEqual(badRequest(new Error()))
   })
-  test('Should return 403 if createUser throws 403', async () => {
+  test('Should return 400 if createUser throws 400', async () => {
     const { sut, createUserStub } = makeSut()
-    jest.spyOn(createUserStub, 'create').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 403, data: 'Email already registred' })))
+    jest.spyOn(createUserStub, 'create').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 400, data: new EmailInUseError() })))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(forbidden('Email already registred'))
+    expect(httpResponse).toEqual(badRequest(new EmailInUseError()))
   })
   test('Should return 500 if createUser throws 500', async () => {
     const { sut, createUserStub } = makeSut()

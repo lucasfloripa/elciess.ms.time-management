@@ -1,11 +1,11 @@
 import { Time } from '../entities'
 
 export interface UpdateTime {
-  update: (data: UpdateTimeDTO) => Promise<Time>
+  update: (data: UpdateTimeParams) => Promise<Time>
 }
 
-export interface UpdateTimeDTO {
-  id: string
+export interface UpdateTimeParams {
+  timeId: string
   project_id?: string
   user_id?: string
   started_at?: Date

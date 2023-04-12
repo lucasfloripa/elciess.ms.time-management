@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { GetProjectsController } from '../../../src/presentation/controllers'
 import { serverError, ok, notFound } from '../../../src/presentation/helpers'
 import { ServerError } from '../../../src/presentation/errors'

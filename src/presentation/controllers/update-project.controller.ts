@@ -21,7 +21,7 @@ export class UpdateProjectController implements Controller {
 }
 
 interface Request {
-  id: string
+  projectId: string
   title?: string
   description?: string
   user_ids?: string[]

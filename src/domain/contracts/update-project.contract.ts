@@ -1,11 +1,11 @@
 import { Project } from '../entities'
 
 export interface UpdateProject {
-  update: (data: UpdateProjectDTO) => Promise<Project>
+  update: (data: UpdateProjectParams) => Promise<Project>
 }
 
-interface UpdateProjectDTO {
-  id: string
+export interface UpdateProjectParams {
+  projectId: string
   title?: string
   description?: string
   user_ids?: string[]

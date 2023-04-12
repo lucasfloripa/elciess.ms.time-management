@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { CreateProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok } from '../../../src/presentation/helpers'

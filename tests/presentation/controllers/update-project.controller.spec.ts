@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { UpdateProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
@@ -8,7 +7,7 @@ import { mockUpdateProject } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest = {
-  id: 'any-id',
+  projectId: 'any-id',
   title: 'any-title'
 }
 

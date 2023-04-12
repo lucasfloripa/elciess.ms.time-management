@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { UpdateTimeController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
@@ -8,7 +7,7 @@ import { mockUpdateTime } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest = {
-  id: 'any-id',
+  timeId: 'any-id',
   name: 'any-name'
 }
 

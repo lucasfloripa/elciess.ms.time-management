@@ -21,7 +21,7 @@ export class UpdateTimeController implements Controller {
 }
 
 interface Request {
-  id: string
+  timeId: string
   project_id?: string
   user_id?: string
   started_at?: Date
