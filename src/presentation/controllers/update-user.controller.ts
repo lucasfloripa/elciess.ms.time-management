@@ -1,4 +1,4 @@
-import { UpdateUser } from '../../domain/contracts'
+import { UpdateUser, UpdateUserParams } from '../../domain/contracts'
 import { badRequest, exceptionHandler, ok } from '../helpers'
 import { Controller, HttpResponse, Validation } from '../protocols'
 
@@ -8,7 +8,7 @@ export class UpdateUserController implements Controller {
     private readonly validation: Validation
   ) {}
 
-  async handle (request: Request): Promise<HttpResponse> {
+  async handle (request: UpdateUserParams): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(request)
       if (error != null) return badRequest(error)
@@ -18,12 +18,4 @@ export class UpdateUserController implements Controller {
       return exceptionHandler(error)
     }
   }
-}
-
-interface Request {
-  userId: string
-  name?: string
-  email?: string
-  password?: string
-  project_ids?: string[]
 }

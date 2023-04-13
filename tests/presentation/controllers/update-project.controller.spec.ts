@@ -2,13 +2,14 @@ import { UpdateProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
 import { ServerError } from '../../../src/presentation/errors'
-import { UpdateProject } from '../../../src/domain/contracts'
+import { UpdateProject, UpdateProjectParams } from '../../../src/domain/contracts'
 import { mockUpdateProject } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
-const mockRequest = {
-  projectId: 'any-id',
-  title: 'any-title'
+const mockRequest: UpdateProjectParams = {
+  id: 'any-id',
+  title: 'any-title',
+  description: 'any-description'
 }
 
 interface SutTypes {

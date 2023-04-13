@@ -8,13 +8,8 @@ export class DbUpdateProjectUseCase implements UpdateProject {
   ) {}
 
   async update (params: UpdateProjectParams): Promise<Project> {
-    const { projectId, ...rest } = params
-    const exists = await this.projectRepository.getById(projectId)
-    if (!exists) throw new Error('Project not found')
-    const newProject = await this.projectRepository.update({
-      id: projectId,
-      ...rest
-    })
-    return newProject
+    const project = await this.projectRepository.update(params)
+    if (!project) throw new Error('Project not found')
+    return project
   }
 }

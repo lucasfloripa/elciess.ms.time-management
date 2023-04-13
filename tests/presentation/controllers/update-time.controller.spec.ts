@@ -2,13 +2,16 @@ import { UpdateTimeController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
 import { ServerError } from '../../../src/presentation/errors'
-import { UpdateTime } from '../../../src/domain/contracts'
+import { UpdateTime, UpdateTimeParams } from '../../../src/domain/contracts'
 import { mockUpdateTime } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
-const mockRequest = {
-  timeId: 'any-id',
-  name: 'any-name'
+const mockRequest: UpdateTimeParams = {
+  id: '1',
+  project_id: '1',
+  user_id: '1',
+  started_at: '2023-04-13T14:00:00.704Z',
+  ended_at: '2023-04-13T15:00:00.704Z'
 }
 
 interface SutTypes {

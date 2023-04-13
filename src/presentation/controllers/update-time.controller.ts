@@ -1,4 +1,4 @@
-import { UpdateTime } from '../../domain/contracts'
+import { UpdateTime, UpdateTimeParams } from '../../domain/contracts'
 import { badRequest, exceptionHandler, ok } from '../helpers'
 import { Controller, HttpResponse, Validation } from '../protocols'
 
@@ -8,7 +8,7 @@ export class UpdateTimeController implements Controller {
     private readonly validation: Validation
   ) {}
 
-  async handle (request: Request): Promise<HttpResponse> {
+  async handle (request: UpdateTimeParams): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(request)
       if (error != null) return badRequest(error)
@@ -18,12 +18,4 @@ export class UpdateTimeController implements Controller {
       return exceptionHandler(error)
     }
   }
-}
-
-interface Request {
-  timeId: string
-  project_id?: string
-  user_id?: string
-  started_at?: Date
-  ended_at?: Date
 }

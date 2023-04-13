@@ -5,9 +5,7 @@ export interface UpdateProject {
 }
 
 export interface UpdateProjectParams {
-  projectId: string
-  title?: string
-  description?: string
-  user_ids?: string[]
-  time_ids?: string[]
+  id: string
+  title: string
+  description: string
 }

@@ -8,13 +8,8 @@ export class DbUpdateUserUseCase implements UpdateUser {
   ) {}
 
   async update (params: UpdateUserParams): Promise<User> {
-    const { userId, ...rest } = params
-    const exists = await this.userRepository.getById(userId)
-    if (!exists) throw new Error('User not found')
-    const newUser = await this.userRepository.update({
-      id: userId,
-      ...rest
-    })
-    return newUser
+    const user = await this.userRepository.update(params)
+    if (!user) throw new Error('User not found')
+    return user
   }
 }

@@ -4,7 +4,11 @@ import { UpdateTimeParams } from '../../../src/domain/contracts'
 import { mockTimeRepository } from '../../application/mocks'
 
 const mockRequest: UpdateTimeParams = {
-  timeId: '1'
+  id: '1',
+  user_id: '1',
+  project_id: '1',
+  started_at: '2023-04-13T14:00:00.704Z',
+  ended_at: '2023-04-13T15:00:00.704Z'
 }
 
 interface SutTypes {
@@ -19,27 +23,11 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbUpdateTimeUseCase', () => {
-  test('Should call timeRepository.getById() with correct params', async () => {
-    const { sut, timeRepositoryStub } = makeSut()
-    const spyGetById = jest.spyOn(timeRepositoryStub, 'getById')
-    await sut.update(mockRequest)
-    expect(spyGetById).toHaveBeenCalledWith('1')
-  })
-  test('Should throw if timeRepository.getById() throws', async () => {
-    const { sut, timeRepositoryStub } = makeSut()
-    jest.spyOn(timeRepositoryStub, 'getById').mockImplementationOnce(async () => (await Promise.reject(new Error())))
-    const isValid = sut.update(mockRequest)
-    await expect(isValid).rejects.toThrow()
-  })
   test('Should call timeRepository.update() with correct params', async () => {
     const { sut, timeRepositoryStub } = makeSut()
-    const { timeId, ...rest } = mockRequest
     const spyGetById = jest.spyOn(timeRepositoryStub, 'update')
     await sut.update(mockRequest)
-    expect(spyGetById).toHaveBeenCalledWith({
-      id: timeId,
-      ...rest
-    })
+    expect(spyGetById).toHaveBeenCalledWith(mockRequest)
   })
   test('Should throw if timeRepository.update() throws', async () => {
     const { sut, timeRepositoryStub } = makeSut()

@@ -5,6 +5,10 @@
   "author": "Lucas Gonçalves",
   "repository": "https://github.com/lucasfloripa/elciess.ms.users",
   "scripts": {
+    "start:dev": "NODE_ENV=dev nodemon --watch './**/*.ts' --exec 'ts-node' ./src/main/server.ts",
+    "start:prod": "NODE_ENV=prod node dist/main/server.js",
+    "docker:up": "npm run test && rimraf data && npm run build && docker-compose up",
+    "docker:down": "docker-compose down",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "test": "jest --passWithNoTests --runInBand --no-cache",
     "test:watch": "jest --watchAll",
@@ -16,9 +20,13 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.4.2",
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
+    "@types/pg": "^8.6.6",
     "@types/supertest": "^2.0.12",
+    "@types/uuid": "^9.0.1",
+    "@types/validator": "^13.7.14",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "commitlint": "^17.4.2",
     "eslint": "^8.31.0",
@@ -29,6 +37,7 @@
     "husky": "^8.0.0",
     "jest": "^29.3.1",
     "lint-staged": "^13.1.0",
+    "nodemon": "^2.0.22",
     "rimraf": "^4.0.4",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
@@ -41,5 +50,11 @@
       "npm run test:staged",
       "git add"
     ]
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "pg": "^8.10.0",
+    "uuid": "^9.0.0",
+    "validator": "^13.9.0"
   }
 }

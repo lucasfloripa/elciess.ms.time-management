@@ -2,13 +2,15 @@ import { UpdateUserController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
 import { ServerError } from '../../../src/presentation/errors'
-import { UpdateUser } from '../../../src/domain/contracts'
+import { UpdateUser, UpdateUserParams } from '../../../src/domain/contracts'
 import { mockUpdateUser } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
-const mockRequest = {
-  userId: 'any-id',
-  name: 'any-name'
+const mockRequest: UpdateUserParams = {
+  id: 'any-id',
+  name: 'any-name',
+  email: 'any-email',
+  password: 'any-password'
 }
 
 interface SutTypes {

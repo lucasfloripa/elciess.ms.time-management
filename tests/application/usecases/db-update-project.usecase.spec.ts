@@ -4,8 +4,9 @@ import { UpdateProjectParams } from '../../../src/domain/contracts'
 import { mockProjectRepository } from '../../application/mocks'
 
 const mockRequest: UpdateProjectParams = {
-  projectId: '1',
-  description: 'any_description'
+  id: '1',
+  description: 'any_description',
+  title: 'any_title'
 }
 
 interface SutTypes {
@@ -20,27 +21,11 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbUpdateProjectUseCase', () => {
-  test('Should call projectRepository.getById() with correct params', async () => {
-    const { sut, projectRepositoryStub } = makeSut()
-    const spyGetById = jest.spyOn(projectRepositoryStub, 'getById')
-    await sut.update(mockRequest)
-    expect(spyGetById).toHaveBeenCalledWith('1')
-  })
-  test('Should throw if projectRepository.getById() throws', async () => {
-    const { sut, projectRepositoryStub } = makeSut()
-    jest.spyOn(projectRepositoryStub, 'getById').mockImplementationOnce(async () => (await Promise.reject(new Error())))
-    const isValid = sut.update(mockRequest)
-    await expect(isValid).rejects.toThrow()
-  })
   test('Should call projectRepository.update() with correct params', async () => {
     const { sut, projectRepositoryStub } = makeSut()
-    const { projectId, ...rest } = mockRequest
     const spyGetById = jest.spyOn(projectRepositoryStub, 'update')
     await sut.update(mockRequest)
-    expect(spyGetById).toHaveBeenCalledWith({
-      id: projectId,
-      ...rest
-    })
+    expect(spyGetById).toHaveBeenCalledWith(mockRequest)
   })
   test('Should throw if projectRepository.update() throws', async () => {
     const { sut, projectRepositoryStub } = makeSut()

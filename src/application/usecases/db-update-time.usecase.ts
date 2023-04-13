@@ -8,13 +8,8 @@ export class DbUpdateTimeUseCase implements UpdateTime {
   ) {}
 
   async update (params: UpdateTimeParams): Promise<Time> {
-    const { timeId, ...rest } = params
-    const exists = await this.timeRepository.getById(timeId)
-    if (!exists) throw new Error('Time not found')
-    const newTime = await this.timeRepository.update({
-      id: timeId,
-      ...rest
-    })
-    return newTime
+    const time = await this.timeRepository.update(params)
+    if (!time) throw new Error('Time not found')
+    return time
   }
 }

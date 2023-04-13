@@ -5,9 +5,8 @@ export interface UpdateUser {
 }
 
 export interface UpdateUserParams {
-  userId: string
-  name?: string
-  email?: string
-  password?: string
-  project_ids?: string[]
+  id: string
+  name: string
+  email: string
+  password: string
 }

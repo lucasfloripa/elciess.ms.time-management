@@ -4,7 +4,7 @@ export interface UserRepository {
   create: (params: CreateUserRepositoryParams) => Promise<User>
   getById: (userId: string) => Promise<User | null>
   checkByEmail: (email: string) => Promise<boolean>
-  update: (params: UpdateUserRepositoryParams) => Promise<User>
+  update: (params: UpdateUserRepositoryParams) => Promise<User | null>
 }
 
 export interface CreateUserRepositoryParams {
@@ -12,13 +12,11 @@ export interface CreateUserRepositoryParams {
   name: string
   email: string
   password: string
-  project_ids?: string[]
 }
 
 export interface UpdateUserRepositoryParams {
   id: string
-  name?: string
-  email?: string
-  password?: string
-  project_ids?: string[]
+  name: string
+  email: string
+  password: string
 }

@@ -5,9 +5,9 @@ export interface UpdateTime {
 }
 
 export interface UpdateTimeParams {
-  timeId: string
-  project_id?: string
-  user_id?: string
-  started_at?: Date
-  ended_at?: Date
+  id: string
+  project_id: string
+  user_id: string
+  started_at: string
+  ended_at: string
 }

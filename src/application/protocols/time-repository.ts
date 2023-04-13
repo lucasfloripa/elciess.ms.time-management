@@ -4,21 +4,21 @@ export interface TimeRepository {
   create: (params: CreateTimeRepositoryParams) => Promise<Time>
   getById: (userId: string) => Promise<Time | null>
   getAllByProjectId: (projectId: string) => Promise<Time[] | null>
-  update: (params: UpdateTimeRepositoryParams) => Promise<Time>
+  update: (params: UpdateTimeRepositoryParams) => Promise<Time | null>
 }
 
 export interface CreateTimeRepositoryParams {
   id: string
   project_id: string
   user_id: string
-  started_at: Date
-  ended_at: Date
+  started_at: string
+  ended_at: string
 }
 
 export interface UpdateTimeRepositoryParams {
   id: string
-  project_id?: string
-  user_id?: string
-  started_at?: Date
-  ended_at?: Date
+  project_id: string
+  user_id: string
+  started_at: string
+  ended_at: string
 }

@@ -4,7 +4,7 @@ export interface ProjectRepository {
   create: (params: CreateProjectRepositoryParams) => Promise<Project>
   getById: (userId: string) => Promise<Project | null>
   getAll: () => Promise<Project[] | null>
-  update: (params: UpdateProjectRepositoryParams) => Promise<Project>
+  update: (params: UpdateProjectRepositoryParams) => Promise<Project | null>
 }
 
 export interface CreateProjectRepositoryParams {
@@ -15,8 +15,6 @@ export interface CreateProjectRepositoryParams {
 
 export interface UpdateProjectRepositoryParams {
   id: string
-  title?: string
-  description?: string
-  user_ids?: string[]
-  time_ids?: string[]
+  title: string
+  description: string
 }
