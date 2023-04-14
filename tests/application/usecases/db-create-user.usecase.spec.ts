@@ -2,6 +2,7 @@ import { DbCreateUserUseCase } from '../../../src/application/usecases'
 import { UserRepository, Hasher, IdGenerator } from '../../../src/application/protocols'
 import { CreateUserParams } from '../../../src/domain/contracts'
 import { mockUserRepository, mockIdGenerator, mockHasher } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: CreateUserParams = {
   name: 'any-name',
@@ -20,7 +21,8 @@ const makeSut = (): SutTypes => {
   const userRepositoryStub = mockUserRepository()
   const idGeneratorStub = mockIdGenerator()
   const hasherStub = mockHasher()
-  const sut = new DbCreateUserUseCase(userRepositoryStub, idGeneratorStub, hasherStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbCreateUserUseCase(userRepositoryStub, idGeneratorStub, hasherStub, fakeLogger)
   return { sut, userRepositoryStub, idGeneratorStub, hasherStub }
 }
 

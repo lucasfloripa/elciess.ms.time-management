@@ -5,7 +5,7 @@ import { PostgresHelper } from './postgres-helper'
 export class TimePostgresRepository implements TimeRepository {
   async create (params: CreateTimeRepositoryParams): Promise<Time> {
     const time = await PostgresHelper.query(
-      'INSERT INTO time(id, project_id, user_id, started_at, ended_at) aaVALUES($1, $2, $3, $4, $5) RETURNING *', Object.values(params))
+      'INSERT INTO time(id, project_id, user_id, started_at, ended_at) VALUES($1, $2, $3, $4, $5) RETURNING *', Object.values(params))
     return time.rows[0]
   }
 

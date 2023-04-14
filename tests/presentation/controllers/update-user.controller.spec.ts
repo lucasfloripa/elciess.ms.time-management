@@ -2,7 +2,7 @@ import { UpdateUserController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { UpdateUser, UpdateUserParams } from '../../../src/domain/contracts'
-import { mockUpdateUser } from '../../domain/mocks'
+import { mockUpdateUser, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest: UpdateUserParams = {
@@ -21,7 +21,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const updateUserStub = mockUpdateUser()
   const validationStub = mockValidationStub()
-  const sut = new UpdateUserController(updateUserStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new UpdateUserController(updateUserStub, validationStub, fakeLogger)
   return { sut, updateUserStub, validationStub }
 }
 

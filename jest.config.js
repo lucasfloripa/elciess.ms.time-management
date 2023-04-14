@@ -1,3 +1,4 @@
+require('dotenv').config()
 module.exports = {
   roots: ['<rootDir>/tests'],
   collectCoverageFrom: [

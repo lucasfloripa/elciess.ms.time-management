@@ -2,6 +2,7 @@ import { DbCreateProjectUseCase } from '../../../src/application/usecases'
 import { ProjectRepository, IdGenerator } from '../../../src/application/protocols'
 import { CreateProjectParams } from '../../../src/domain/contracts'
 import { mockProjectRepository, mockIdGenerator } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: CreateProjectParams = {
   description: 'any-description',
@@ -17,7 +18,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const projectRepositoryStub = mockProjectRepository()
   const idGeneratorStub = mockIdGenerator()
-  const sut = new DbCreateProjectUseCase(projectRepositoryStub, idGeneratorStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbCreateProjectUseCase(projectRepositoryStub, idGeneratorStub, fakeLogger)
   return { sut, projectRepositoryStub, idGeneratorStub }
 }
 

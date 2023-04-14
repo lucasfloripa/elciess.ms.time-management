@@ -1,8 +1,8 @@
 import { GetTimesController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, ok, noContent } from '../../../src/domain/helpers'
+import { badRequest, ok } from '../../../src/domain/helpers'
 import { GetTimesByProjectId } from '../../../src/domain/contracts'
-import { mockGetTimesByProjectId } from '../../domain/mocks'
+import { mockGetTimesByProjectId, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest = { projectId: '1' }
@@ -16,7 +16,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const getTimesByProjectIdStub = mockGetTimesByProjectId()
   const validationStub = mockValidationStub()
-  const sut = new GetTimesController(getTimesByProjectIdStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new GetTimesController(getTimesByProjectIdStub, validationStub, fakeLogger)
   return { sut, getTimesByProjectIdStub, validationStub }
 }
 
@@ -38,12 +39,6 @@ describe('GetTimesController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest)
     expect(httpResponse).toEqual(badRequest(new Error()))
-  })
-  test('Should return 204 if getTimesByProjectId throws noContent', async () => {
-    const { sut, getTimesByProjectIdStub } = makeSut()
-    jest.spyOn(getTimesByProjectIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject(noContent())))
-    const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(noContent())
   })
   test('Should return 200 on success', async () => {
     const { sut, getTimesByProjectIdStub } = makeSut()

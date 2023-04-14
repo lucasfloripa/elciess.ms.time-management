@@ -1,7 +1,7 @@
 import { GetProjectsController } from '../../../src/presentation/controllers'
 import { ok, notFound } from '../../../src/domain/helpers'
 import { GetProjects } from '../../../src/domain/contracts'
-import { mockGetProjects } from '../../domain/mocks'
+import { mockGetProjects, mockFakeLogger } from '../../domain/mocks'
 
 interface SutTypes {
   sut: GetProjectsController
@@ -10,7 +10,8 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const getProjectsStub = mockGetProjects()
-  const sut = new GetProjectsController(getProjectsStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new GetProjectsController(getProjectsStub, fakeLogger)
   return { sut, getProjectsStub }
 }
 

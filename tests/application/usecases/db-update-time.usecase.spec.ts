@@ -2,6 +2,7 @@ import { DbUpdateTimeUseCase } from '../../../src/application/usecases'
 import { TimeRepository, UserRepository, ProjectRepository } from '../../../src/application/protocols'
 import { UpdateTimeParams } from '../../../src/domain/contracts'
 import { mockProjectRepository, mockTimeRepository, mockUserRepository } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: UpdateTimeParams = {
   id: '1',
@@ -22,7 +23,8 @@ const makeSut = (): SutTypes => {
   const timeRepositoryStub = mockTimeRepository()
   const userRepositoryStub = mockUserRepository()
   const projectRepositoryStub = mockProjectRepository()
-  const sut = new DbUpdateTimeUseCase(timeRepositoryStub, userRepositoryStub, projectRepositoryStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbUpdateTimeUseCase(timeRepositoryStub, userRepositoryStub, projectRepositoryStub, fakeLogger)
   return { sut, timeRepositoryStub, userRepositoryStub, projectRepositoryStub }
 }
 

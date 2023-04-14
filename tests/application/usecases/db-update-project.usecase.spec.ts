@@ -2,6 +2,7 @@ import { DbUpdateProjectUseCase } from '../../../src/application/usecases'
 import { ProjectRepository } from '../../../src/application/protocols'
 import { UpdateProjectParams } from '../../../src/domain/contracts'
 import { mockProjectRepository } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: UpdateProjectParams = {
   id: '1',
@@ -16,7 +17,8 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const projectRepositoryStub = mockProjectRepository()
-  const sut = new DbUpdateProjectUseCase(projectRepositoryStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbUpdateProjectUseCase(projectRepositoryStub, fakeLogger)
   return { sut, projectRepositoryStub }
 }
 

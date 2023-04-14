@@ -3,7 +3,7 @@ import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, ok } from '../../../src/domain/helpers'
 import { EmailInUseError } from '../../../src/domain/errors'
 import { CreateUser, CreateUserParams } from '../../../src/domain/contracts'
-import { mockCreateUser } from '../../domain/mocks'
+import { mockCreateUser, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest: CreateUserParams = {
@@ -21,7 +21,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const createUserStub = mockCreateUser()
   const validationStub = mockValidationStub()
-  const sut = new CreateUserController(createUserStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new CreateUserController(createUserStub, validationStub, fakeLogger)
   return { sut, createUserStub, validationStub }
 }
 

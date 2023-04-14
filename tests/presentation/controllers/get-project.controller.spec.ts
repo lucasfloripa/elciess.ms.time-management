@@ -2,7 +2,7 @@ import { GetProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { GetProjectById } from '../../../src/domain/contracts'
-import { mockGetProjectById } from '../../domain/mocks'
+import { mockGetProjectById, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest = { id: '1' }
@@ -16,7 +16,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const getProjectByIdStub = mockGetProjectById()
   const validationStub = mockValidationStub()
-  const sut = new GetProjectController(getProjectByIdStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new GetProjectController(getProjectByIdStub, validationStub, fakeLogger)
   return { sut, getProjectByIdStub, validationStub }
 }
 

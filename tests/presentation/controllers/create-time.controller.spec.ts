@@ -2,7 +2,7 @@ import { CreateTimeController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { CreateTime, CreateTimeParams } from '../../../src/domain/contracts'
-import { mockCreateTime } from '../../domain/mocks'
+import { mockCreateTime, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest: CreateTimeParams = {
@@ -21,7 +21,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const createTimeStub = mockCreateTime()
   const validationStub = mockValidationStub()
-  const sut = new CreateTimeController(createTimeStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new CreateTimeController(createTimeStub, validationStub, fakeLogger)
   return { sut, createTimeStub, validationStub }
 }
 

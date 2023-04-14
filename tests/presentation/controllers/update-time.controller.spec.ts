@@ -2,7 +2,7 @@ import { UpdateTimeController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
 import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { UpdateTime, UpdateTimeParams } from '../../../src/domain/contracts'
-import { mockUpdateTime } from '../../domain/mocks'
+import { mockUpdateTime, mockFakeLogger } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
 
 const mockRequest: UpdateTimeParams = {
@@ -22,7 +22,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const updateTimeStub = mockUpdateTime()
   const validationStub = mockValidationStub()
-  const sut = new UpdateTimeController(updateTimeStub, validationStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new UpdateTimeController(updateTimeStub, validationStub, fakeLogger)
   return { sut, updateTimeStub, validationStub }
 }
 

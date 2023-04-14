@@ -2,6 +2,7 @@ import { DbUpdateUserUseCase } from '../../../src/application/usecases'
 import { Hasher, UserRepository } from '../../../src/application/protocols'
 import { UpdateUserParams } from '../../../src/domain/contracts'
 import { mockHasher, mockUserRepository } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: UpdateUserParams = {
   id: '1',
@@ -19,7 +20,8 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const userRepositoryStub = mockUserRepository()
   const hasherStub = mockHasher()
-  const sut = new DbUpdateUserUseCase(userRepositoryStub, hasherStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbUpdateUserUseCase(userRepositoryStub, hasherStub, fakeLogger)
   return { sut, userRepositoryStub, hasherStub }
 }
 

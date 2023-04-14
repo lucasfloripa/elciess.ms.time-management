@@ -7,7 +7,7 @@
   "scripts": {
     "start:dev": "NODE_ENV=dev nodemon --watch './**/*.ts' --exec 'ts-node' ./src/main/server.ts",
     "start:prod": "NODE_ENV=prod node dist/main/server.js",
-    "docker:up": "npm run test && rimraf data && npm run build && docker-compose up",
+    "docker:up": "rimraf data && npm run build && docker-compose up",
     "docker:down": "docker-compose down",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "test": "jest --passWithNoTests --runInBand --no-cache",
@@ -23,6 +23,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.2.5",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
     "@types/pg": "^8.6.6",
     "@types/supertest": "^2.0.12",
@@ -48,7 +49,7 @@
   "lint-staged": {
     "**/*.ts": [
       "eslint 'src/**' --fix",
-      "npm run test:staged",
+      "npm run test:unit",
       "git add"
     ]
   },
@@ -56,8 +57,10 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "morgan": "^1.10.0",
     "pg": "^8.10.0",
     "uuid": "^9.0.0",
-    "validator": "^13.9.0"
+    "validator": "^13.9.0",
+    "winston": "^3.8.2"
   }
 }

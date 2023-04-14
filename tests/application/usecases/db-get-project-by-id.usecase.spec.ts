@@ -1,6 +1,7 @@
 import { DbGetProjectById } from '../../../src/application/usecases'
 import { ProjectRepository } from '../../../src/application/protocols'
 import { mockProjectRepository } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest = '1'
 
@@ -11,7 +12,8 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const projectRepositoryStub = mockProjectRepository()
-  const sut = new DbGetProjectById(projectRepositoryStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbGetProjectById(projectRepositoryStub, fakeLogger)
   return { sut, projectRepositoryStub }
 }
 

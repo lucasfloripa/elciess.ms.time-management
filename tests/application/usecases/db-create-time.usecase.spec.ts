@@ -2,6 +2,7 @@ import { DbCreateTimeUseCase } from '../../../src/application/usecases'
 import { TimeRepository, UserRepository, ProjectRepository, IdGenerator } from '../../../src/application/protocols'
 import { CreateTimeParams } from '../../../src/domain/contracts'
 import { mockProjectRepository, mockUserRepository, mockTimeRepository, mockIdGenerator } from '../../application/mocks'
+import { mockFakeLogger } from '../../domain/mocks'
 
 const mockRequest: CreateTimeParams = {
   project_id: '1',
@@ -23,7 +24,8 @@ const makeSut = (): SutTypes => {
   const userRepositoryStub = mockUserRepository()
   const projectRepositoryStub = mockProjectRepository()
   const idGeneratorStub = mockIdGenerator()
-  const sut = new DbCreateTimeUseCase(idGeneratorStub, timeRepositoryStub, userRepositoryStub, projectRepositoryStub)
+  const fakeLogger = mockFakeLogger()
+  const sut = new DbCreateTimeUseCase(idGeneratorStub, timeRepositoryStub, userRepositoryStub, projectRepositoryStub, fakeLogger)
   return { sut, timeRepositoryStub, idGeneratorStub, projectRepositoryStub, userRepositoryStub }
 }
 
