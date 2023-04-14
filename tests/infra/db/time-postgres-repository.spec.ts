@@ -58,27 +58,7 @@ describe('TimePostgresRepository', () => {
       expect(exists).toEqual(mockCreateTimeRepositoryParams)
     })
   })
-  describe('getById()', () => {
-    test('Should return an time on success', async () => {
-      const result = mockTime
-      client.query.mockResolvedValueOnce({
-        rows: [
-          result
-        ],
-        rowCount: 1
-      })
-      const time = await timePostgresRepository.getById('1')
-      expect(time).toEqual(result)
-    })
-    test('Should return null if time not found', async () => {
-      client.query.mockResolvedValueOnce({
-        rows: [],
-        rowCount: 0
-      })
-      const exists = await timePostgresRepository.getById('1')
-      expect(exists).toBeFalsy()
-    })
-  })
+
   describe('update()', () => {
     test('Should return an time updated', async () => {
       client.query.mockResolvedValueOnce({
@@ -99,7 +79,7 @@ describe('TimePostgresRepository', () => {
       expect(exists).toBeFalsy()
     })
   })
-  describe('getAll()', () => {
+  describe('getAllByProjectId()', () => {
     test('Should return times on success', async () => {
       const result = mockTime
       client.query.mockResolvedValueOnce({
@@ -111,7 +91,7 @@ describe('TimePostgresRepository', () => {
       const project = await timePostgresRepository.getAllByProjectId('1')
       expect(project).toEqual([result])
     })
-    test('Should return null if projects not found', async () => {
+    test('Should return null if times not found', async () => {
       client.query.mockResolvedValueOnce({
         rows: [],
         rowCount: 0

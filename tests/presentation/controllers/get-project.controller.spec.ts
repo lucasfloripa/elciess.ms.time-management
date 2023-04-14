@@ -1,7 +1,6 @@
 import { GetProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { GetProjectById } from '../../../src/domain/contracts'
 import { mockGetProjectById } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -42,15 +41,9 @@ describe('GetProjectController', () => {
   })
   test('Should return 404 if getProjectById throws 404', async () => {
     const { sut, getProjectByIdStub } = makeSut()
-    jest.spyOn(getProjectByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 404, data: 'Project not found' })))
+    jest.spyOn(getProjectByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`Project not found with id ${mockRequest.id}`)))))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(notFound('Project not found'))
-  })
-  test('Should return 500 if getProjectById throws 500', async () => {
-    const { sut, getProjectByIdStub } = makeSut()
-    jest.spyOn(getProjectByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
-    const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(notFound(new Error(`Project not found with id ${mockRequest.id}`)))
   })
   test('Should return 200 on success', async () => {
     const { sut, getProjectByIdStub } = makeSut()

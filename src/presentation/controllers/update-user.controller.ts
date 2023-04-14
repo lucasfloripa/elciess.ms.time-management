@@ -1,5 +1,5 @@
 import { UpdateUser, UpdateUserParams } from '../../domain/contracts'
-import { badRequest, exceptionHandler, ok } from '../helpers'
+import { badRequest, ok } from '../../domain/helpers'
 import { Controller, HttpResponse, Validation } from '../protocols'
 
 export class UpdateUserController implements Controller {
@@ -15,7 +15,7 @@ export class UpdateUserController implements Controller {
       const user = await this.updateUser.update(request)
       return ok(user)
     } catch (error) {
-      return exceptionHandler(error)
+      return error
     }
   }
 }

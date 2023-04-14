@@ -1,5 +1,5 @@
 import { GetTimesByProjectId } from '../../domain/contracts'
-import { badRequest, ok, exceptionHandler } from '../../presentation/helpers'
+import { badRequest, ok } from '../../domain/helpers'
 import { Controller, HttpResponse, Validation } from '../../presentation/protocols'
 
 export class GetTimesController implements Controller {
@@ -15,7 +15,7 @@ export class GetTimesController implements Controller {
       const times = await this.getTimeByProjectId.get(request.projectId)
       return ok(times)
     } catch (error) {
-      return exceptionHandler(error)
+      return error
     }
   }
 }

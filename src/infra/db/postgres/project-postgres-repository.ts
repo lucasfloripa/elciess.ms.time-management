@@ -5,13 +5,13 @@ import { PostgresHelper } from './postgres-helper'
 export class ProjectPostgresRepository implements ProjectRepository {
   async create (params: CreateProjectRepositoryParams): Promise<Project> {
     const project = await PostgresHelper.query(
-      'INSERT INTO project(id, description, title) VALUES($1, $2, $3)', Object.values(params))
+      'INSERT INTO project(id, description, title) VALUES($1, $2, $3) RETURNING *', Object.values(params))
     return project.rows[0]
   }
 
   async update (params: UpdateProjectRepositoryParams): Promise<Project | null> {
     const project = await PostgresHelper.query(
-      'UPDATE project SET description = $2, title = $3 WHERE id = $1', Object.values(params))
+      'UPDATE project SET title = $1, description = $2 WHERE id = $3 RETURNING *', Object.values(params))
     return project.rows[0]
   }
 

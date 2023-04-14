@@ -1,7 +1,7 @@
 import { DbUpdateTimeUseCase } from '../../../src/application/usecases'
-import { TimeRepository } from '../../../src/application/protocols'
+import { TimeRepository, UserRepository, ProjectRepository } from '../../../src/application/protocols'
 import { UpdateTimeParams } from '../../../src/domain/contracts'
-import { mockTimeRepository } from '../../application/mocks'
+import { mockProjectRepository, mockTimeRepository, mockUserRepository } from '../../application/mocks'
 
 const mockRequest: UpdateTimeParams = {
   id: '1',
@@ -14,12 +14,16 @@ const mockRequest: UpdateTimeParams = {
 interface SutTypes {
   sut: DbUpdateTimeUseCase
   timeRepositoryStub: TimeRepository
+  userRepositoryStub: UserRepository
+  projectRepositoryStub: ProjectRepository
 }
 
 const makeSut = (): SutTypes => {
   const timeRepositoryStub = mockTimeRepository()
-  const sut = new DbUpdateTimeUseCase(timeRepositoryStub)
-  return { sut, timeRepositoryStub }
+  const userRepositoryStub = mockUserRepository()
+  const projectRepositoryStub = mockProjectRepository()
+  const sut = new DbUpdateTimeUseCase(timeRepositoryStub, userRepositoryStub, projectRepositoryStub)
+  return { sut, timeRepositoryStub, userRepositoryStub, projectRepositoryStub }
 }
 
 describe('DbUpdateTimeUseCase', () => {
@@ -32,6 +36,30 @@ describe('DbUpdateTimeUseCase', () => {
   test('Should throw if timeRepository.update() throws', async () => {
     const { sut, timeRepositoryStub } = makeSut()
     jest.spyOn(timeRepositoryStub, 'update').mockImplementationOnce(async () => (await Promise.reject(new Error())))
+    const isValid = sut.update(mockRequest)
+    await expect(isValid).rejects.toThrow()
+  })
+  test('Should call userRepository.getById() with correct params', async () => {
+    const { sut, userRepositoryStub } = makeSut()
+    const spyGetById = jest.spyOn(userRepositoryStub, 'getById')
+    await sut.update(mockRequest)
+    expect(spyGetById).toHaveBeenCalledWith(mockRequest.user_id)
+  })
+  test('Should throw if userRepository.getById() throws', async () => {
+    const { sut, userRepositoryStub } = makeSut()
+    jest.spyOn(userRepositoryStub, 'getById').mockImplementationOnce(async () => (await Promise.reject(new Error())))
+    const isValid = sut.update(mockRequest)
+    await expect(isValid).rejects.toThrow()
+  })
+  test('Should call projectRepository.getById() with correct params', async () => {
+    const { sut, projectRepositoryStub } = makeSut()
+    const spyGetById = jest.spyOn(projectRepositoryStub, 'getById')
+    await sut.update(mockRequest)
+    expect(spyGetById).toHaveBeenCalledWith(mockRequest.project_id)
+  })
+  test('Should throw if projectRepository.getById() throws', async () => {
+    const { sut, projectRepositoryStub } = makeSut()
+    jest.spyOn(projectRepositoryStub, 'getById').mockImplementationOnce(async () => (await Promise.reject(new Error())))
     const isValid = sut.update(mockRequest)
     await expect(isValid).rejects.toThrow()
   })

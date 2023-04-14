@@ -1,6 +1,7 @@
 
 import { GetProjects } from '../../domain/contracts'
 import { Project } from '../../domain/entities'
+import { notFound } from '../../domain/helpers'
 import { ProjectRepository } from '../protocols'
 
 export class DbGetProjects implements GetProjects {
@@ -8,7 +9,7 @@ export class DbGetProjects implements GetProjects {
 
   async getAll (): Promise<Project[]> {
     const exists = await this.projectRepository.getAll()
-    if (!exists) throw new Error('Projects not found')
+    if (!exists) throw notFound(new Error('Projects not found'))
     return exists
   }
 }

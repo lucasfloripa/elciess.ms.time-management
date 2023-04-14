@@ -1,7 +1,6 @@
 import { CreateProjectController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok } from '../../../src/domain/helpers'
 import { CreateProject } from '../../../src/domain/contracts'
 import { mockCreateProject } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -45,9 +44,9 @@ describe('CreateProjectController', () => {
   })
   test('Should return 500 if createProject throws 500', async () => {
     const { sut, createProjectStub } = makeSut()
-    jest.spyOn(createProjectStub, 'create').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
+    jest.spyOn(createProjectStub, 'create').mockImplementationOnce(async () => (await Promise.reject(new Error())))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(new Error())
   })
   test('Should return 200 on success', async () => {
     const { sut, createProjectStub } = makeSut()

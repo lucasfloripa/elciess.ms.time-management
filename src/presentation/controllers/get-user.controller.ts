@@ -1,5 +1,5 @@
 import { GetUserById } from '../../domain/contracts'
-import { badRequest, ok, exceptionHandler } from '../../presentation/helpers'
+import { badRequest, ok } from '../../domain/helpers'
 import { Controller, HttpResponse, Validation } from '../../presentation/protocols'
 
 export class GetUserController implements Controller {
@@ -15,7 +15,7 @@ export class GetUserController implements Controller {
       const user = await this.getUserById.get(request.id)
       return ok(user)
     } catch (error) {
-      return exceptionHandler(error)
+      return error
     }
   }
 }

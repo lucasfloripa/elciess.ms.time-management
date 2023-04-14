@@ -1,4 +1,4 @@
-import { MissingParamError } from '../../../src/presentation/errors'
+import { MissingParamError } from '../../../src/domain/errors'
 import { Validation } from '../../../src/presentation/protocols'
 import { ValidationComposite } from '../../../src/utils/validators'
 import { mockValidationStub } from '../mocks'

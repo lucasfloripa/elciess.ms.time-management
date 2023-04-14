@@ -40,7 +40,6 @@ describe('DbCreateTimeUseCase', () => {
     const isValid = sut.create(mockRequest)
     await expect(isValid).rejects.toThrow()
   })
-
   test('Should call projectRepository.getById correctly', async () => {
     const { sut, projectRepositoryStub } = makeSut()
     const spyGetById = jest.spyOn(projectRepositoryStub, 'getById')

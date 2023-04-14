@@ -1,7 +1,6 @@
 import { GetTimesController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok, noContent } from '../../../src/domain/helpers'
 import { GetTimesByProjectId } from '../../../src/domain/contracts'
 import { mockGetTimesByProjectId } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -40,17 +39,11 @@ describe('GetTimesController', () => {
     const httpResponse = await sut.handle(mockRequest)
     expect(httpResponse).toEqual(badRequest(new Error()))
   })
-  test('Should return 404 if getTimesByProjectId throws 404', async () => {
+  test('Should return 204 if getTimesByProjectId throws noContent', async () => {
     const { sut, getTimesByProjectIdStub } = makeSut()
-    jest.spyOn(getTimesByProjectIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 404, data: `Times not found for project ${mockRequest.projectId}` })))
+    jest.spyOn(getTimesByProjectIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject(noContent())))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(notFound(`Times not found for project ${mockRequest.projectId}`))
-  })
-  test('Should return 500 if getTimesByProjectId throws 500', async () => {
-    const { sut, getTimesByProjectIdStub } = makeSut()
-    jest.spyOn(getTimesByProjectIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
-    const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(noContent())
   })
   test('Should return 200 on success', async () => {
     const { sut, getTimesByProjectIdStub } = makeSut()

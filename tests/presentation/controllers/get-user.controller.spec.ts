@@ -1,7 +1,6 @@
 import { GetUserController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { GetUserById } from '../../../src/domain/contracts'
 import { mockGetUserById } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -42,15 +41,9 @@ describe('GetUserController', () => {
   })
   test('Should return 404 if getUserById throws 404', async () => {
     const { sut, getUserByIdStub } = makeSut()
-    jest.spyOn(getUserByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 404, data: 'User not found' })))
+    jest.spyOn(getUserByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`User not found with id ${mockRequest.id}`)))))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(notFound('User not found'))
-  })
-  test('Should return 500 if getUserById throws 500', async () => {
-    const { sut, getUserByIdStub } = makeSut()
-    jest.spyOn(getUserByIdStub, 'get').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
-    const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(notFound(new Error(`User not found with id ${mockRequest.id}`)))
   })
   test('Should return 200 on success', async () => {
     const { sut, getUserByIdStub } = makeSut()

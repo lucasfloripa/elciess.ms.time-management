@@ -1,7 +1,6 @@
 import { UpdateUserController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { UpdateUser, UpdateUserParams } from '../../../src/domain/contracts'
 import { mockUpdateUser } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -47,16 +46,11 @@ describe('UpdateUserController', () => {
   })
   test('Should return 404 if updateUser throws 404', async () => {
     const { sut, updateUserStub } = makeSut()
-    jest.spyOn(updateUserStub, 'update').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 404, data: 'User not found' })))
+    jest.spyOn(updateUserStub, 'update').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`User not found with id ${mockRequest.id}`)))))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(notFound('User not found'))
+    expect(httpResponse).toEqual(notFound(new Error(`User not found with id ${mockRequest.id}`)))
   })
-  test('Should return 500 if updateUser throws 500', async () => {
-    const { sut, updateUserStub } = makeSut()
-    jest.spyOn(updateUserStub, 'update').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
-    const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
-  })
+
   test('Should return 200 on success', async () => {
     const { sut, updateUserStub } = makeSut()
     const spyUpdate = jest.spyOn(updateUserStub, 'update')

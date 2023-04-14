@@ -1,5 +1,5 @@
 import { UpdateTime, UpdateTimeParams } from '../../domain/contracts'
-import { badRequest, exceptionHandler, ok } from '../helpers'
+import { badRequest, ok } from '../../domain/helpers'
 import { Controller, HttpResponse, Validation } from '../protocols'
 
 export class UpdateTimeController implements Controller {
@@ -15,7 +15,7 @@ export class UpdateTimeController implements Controller {
       const time = await this.updateTime.update(request)
       return ok(time)
     } catch (error) {
-      return exceptionHandler(error)
+      return error
     }
   }
 }

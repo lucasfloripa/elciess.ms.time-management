@@ -1,6 +1,6 @@
 import { EmailValidation } from '../../../src/utils/validators/email-validation'
 import { EmailValidator } from '../../../src/utils/protocols/email-validator'
-import { InvalidParamError } from '../../../src/presentation/errors'
+import { InvalidParamError } from '../../../src/domain/errors'
 import { mockEmailValidatorStub } from '../mocks'
 
 interface SutTypes {

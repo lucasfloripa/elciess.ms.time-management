@@ -1,5 +1,5 @@
 import { GetProjects } from '../../domain/contracts'
-import { ok, exceptionHandler } from '../../presentation/helpers'
+import { ok } from '../../domain/helpers'
 import { Controller, HttpResponse } from '../../presentation/protocols'
 
 export class GetProjectsController implements Controller {
@@ -12,7 +12,7 @@ export class GetProjectsController implements Controller {
       const projects = await this.getProjects.getAll()
       return ok(projects)
     } catch (error) {
-      return exceptionHandler(error)
+      return error
     }
   }
 }

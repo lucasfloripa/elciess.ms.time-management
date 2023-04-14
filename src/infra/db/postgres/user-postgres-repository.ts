@@ -5,13 +5,13 @@ import { PostgresHelper } from './postgres-helper'
 export class UserPostgresRepository implements UserRepository {
   async create (params: CreateUserRepositoryParams): Promise<User> {
     const user = await PostgresHelper.query(
-      'INSERT INTO users(id, password, email, name) VALUES($1, $2, $3, $4)', Object.values(params))
+      'INSERT INTO users(id, password, email, name) VALUES($1, $2, $3, $4) RETURNING *', Object.values(params))
     return user.rows[0]
   }
 
   async update (params: UpdateUserRepositoryParams): Promise<User> {
     const user = await PostgresHelper.query(
-      'UPDATE users SET password = $2, email = $3, name = $4 WHERE id = $1', Object.values(params))
+      'UPDATE users SET password = $1, name = $2, email = $3 WHERE id = $4 RETURNING *', Object.values(params))
     return user.rows[0]
   }
 

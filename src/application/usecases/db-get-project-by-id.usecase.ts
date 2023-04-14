@@ -1,5 +1,6 @@
 import { GetProjectById } from '../../domain/contracts'
 import { Project } from '../../domain/entities'
+import { notFound } from '../../domain/helpers'
 import { ProjectRepository } from '../protocols'
 
 export class DbGetProjectById implements GetProjectById {
@@ -7,7 +8,7 @@ export class DbGetProjectById implements GetProjectById {
 
   async get (id: string): Promise<Project> {
     const exists = await this.projectRepository.getById(id)
-    if (!exists) throw new Error('Project not found')
+    if (!exists) throw notFound(new Error(`Project not found with id ${id}`))
     return exists
   }
 }

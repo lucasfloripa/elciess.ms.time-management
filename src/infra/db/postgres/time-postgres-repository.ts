@@ -5,19 +5,13 @@ import { PostgresHelper } from './postgres-helper'
 export class TimePostgresRepository implements TimeRepository {
   async create (params: CreateTimeRepositoryParams): Promise<Time> {
     const time = await PostgresHelper.query(
-      'INSERT INTO users(id, password, email, name) VALUES($1, $2, $3, $4)', Object.values(params))
+      'INSERT INTO time(id, project_id, user_id, started_at, ended_at) aaVALUES($1, $2, $3, $4, $5) RETURNING *', Object.values(params))
     return time.rows[0]
   }
 
   async update (params: UpdateTimeRepositoryParams): Promise<Time> {
     const time = await PostgresHelper.query(
-      'UPDATE users SET password = $2, email = $3, name = $5 WHERE id = $1', Object.values(params))
-    return time.rows[0]
-  }
-
-  async getById (id: string): Promise<Time> {
-    const time = await PostgresHelper.query(
-      'SELECT * FROM users WHERE id = $1', [id])
+      'UPDATE time SET project_id = $1, user_id = $2, started_at = $3, ended_at = $4 WHERE id = $5 RETURNING *', Object.values(params))
     return time.rows[0]
   }
 

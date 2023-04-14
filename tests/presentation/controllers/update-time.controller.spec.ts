@@ -1,7 +1,6 @@
 import { UpdateTimeController } from '../../../src/presentation/controllers'
 import { Validation } from '../../../src/presentation/protocols'
-import { badRequest, serverError, ok, notFound } from '../../../src/presentation/helpers'
-import { ServerError } from '../../../src/presentation/errors'
+import { badRequest, ok, notFound } from '../../../src/domain/helpers'
 import { UpdateTime, UpdateTimeParams } from '../../../src/domain/contracts'
 import { mockUpdateTime } from '../../domain/mocks'
 import { mockValidationStub } from '../mocks'
@@ -46,17 +45,23 @@ describe('UpdateTimeController', () => {
     const httpResponse = await sut.handle(mockRequest)
     expect(httpResponse).toEqual(badRequest(new Error()))
   })
-  test('Should return 404 if updateTime throws 404', async () => {
+  test('Should return 404 if updateTime throws 404 user not found', async () => {
     const { sut, updateTimeStub } = makeSut()
-    jest.spyOn(updateTimeStub, 'update').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 404, data: 'Time not found' })))
+    jest.spyOn(updateTimeStub, 'update').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`User not found with id ${mockRequest.user_id}`)))))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(notFound('Time not found'))
+    expect(httpResponse).toEqual(notFound(new Error(`User not found with id ${mockRequest.user_id}`)))
   })
-  test('Should return 500 if updateTime throws 500', async () => {
+  test('Should return 404 if updateTime throws 404 project not found', async () => {
     const { sut, updateTimeStub } = makeSut()
-    jest.spyOn(updateTimeStub, 'update').mockImplementationOnce(async () => (await Promise.reject({ statusCode: 500, data: new Error() })))
+    jest.spyOn(updateTimeStub, 'update').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`Project not found with id ${mockRequest.project_id}`)))))
     const httpResponse = await sut.handle(mockRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(notFound(new Error(`Project not found with id ${mockRequest.project_id}`)))
+  })
+  test('Should return 404 if updateTime throws 404 time not found', async () => {
+    const { sut, updateTimeStub } = makeSut()
+    jest.spyOn(updateTimeStub, 'update').mockImplementationOnce(async () => (await Promise.reject(notFound(new Error(`Time not found with id ${mockRequest.id}`)))))
+    const httpResponse = await sut.handle(mockRequest)
+    expect(httpResponse).toEqual(notFound(new Error(`Time not found with id ${mockRequest.id}`)))
   })
   test('Should return 200 on success', async () => {
     const { sut, updateTimeStub } = makeSut()

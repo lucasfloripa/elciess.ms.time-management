@@ -22,12 +22,6 @@ describe('DbGetProjectById', () => {
     await sut.get(mockRequest)
     expect(spyGet).toHaveBeenCalledWith(mockRequest)
   })
-  // test('Should return null if projectRepositoryStub.getById returns not found user', async () => {
-  //   const { sut, projectRepositoryStub } = makeSut()
-  //   jest.spyOn(projectRepositoryStub, 'getById').mockReturnValueOnce(Promise.resolve(null))
-  //   const user = await sut.get(mockRequest)
-  //   expect(user).toBe(null)
-  // })
   test('Should throw if projectRepository throws', async () => {
     const { sut, projectRepositoryStub } = makeSut()
     jest.spyOn(projectRepositoryStub, 'getById').mockImplementationOnce(async () => (await Promise.reject(new Error())))

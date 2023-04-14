@@ -1,5 +1,5 @@
 import { ConfirmDateTimeValidation } from '../../../src/utils/validators'
-import { InvalidParamError } from '../../../src/presentation/errors'
+import { InvalidParamError } from '../../../src/domain/errors'
 
 const makeSut = (): ConfirmDateTimeValidation => {
   return new ConfirmDateTimeValidation()
