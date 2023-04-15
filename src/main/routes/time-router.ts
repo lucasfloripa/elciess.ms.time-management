@@ -1,10 +1,11 @@
-import { adaptRoute } from '../../main/adapters'
+import { adaptMiddleware, adaptRoute } from '../../main/adapters'
 import { makeCreateTimeController, makeGetTimesController, makeUpdateTimeController } from '../factories/controllers'
 
 import { Router } from 'express'
+import { makeAuthMiddleware } from '../factories/middlewares/auth-middleware'
 
 export default (router: Router): void => {
-  router.post('/times', adaptRoute(makeCreateTimeController()))
-  router.get('/times/:projectId', adaptRoute(makeGetTimesController()))
-  router.put('/times/:id', adaptRoute(makeUpdateTimeController()))
+  router.post('/times', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeCreateTimeController()))
+  router.get('/times/:projectId', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeGetTimesController()))
+  router.put('/times/:id', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeUpdateTimeController()))
 }

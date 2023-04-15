@@ -32,7 +32,7 @@ export class DbAuthentication implements Authenticate {
           message: 'Encrypting token'
         })
 
-        const token = await this.encrypter.encrypt(user.email)
+        const token = await this.encrypter.encrypt(user.id)
         return { user, token }
       }
     }
