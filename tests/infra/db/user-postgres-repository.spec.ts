@@ -64,6 +64,26 @@ describe('UserPostgresRepository', () => {
       expect(exists).toBeFalsy()
     })
   })
+  describe('loadByEmail()', () => {
+    test('Should return user if successful', async () => {
+      client.query.mockResolvedValueOnce({
+        rows: [
+          mockCreateUserRepositoryParams
+        ],
+        rowCount: 1
+      })
+      const exists = await userPostgresRepository.loadByEmail('any_email')
+      expect(exists).toBeTruthy()
+    })
+    test('Should return false if fail', async () => {
+      client.query.mockResolvedValueOnce({
+        rows: [],
+        rowCount: 0
+      })
+      const exists = await userPostgresRepository.loadByEmail('any_email')
+      expect(exists).toBeFalsy()
+    })
+  })
   describe('create()', () => {
     test('Should return an user created', async () => {
       client.query.mockResolvedValueOnce({

@@ -10,4 +10,8 @@ export class BcryptAdapter implements Hasher {
   async hash (plaintext: string): Promise<string> {
     return await bcrypt.hash(plaintext, this.salt)
   }
+
+  async compare (hash: string, hashToCompare: string): Promise<boolean> {
+    return await bcrypt.compare(hash, hashToCompare)
+  }
 }

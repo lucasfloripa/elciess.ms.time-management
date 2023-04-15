@@ -21,6 +21,12 @@ export class UserPostgresRepository implements UserRepository {
     return exists.rowCount > 0
   }
 
+  async loadByEmail (email: string): Promise<User | null> {
+    const exists = await PostgresHelper.query(
+      'SELECT * FROM users WHERE email = $1', [email])
+    return exists.rows[0]
+  }
+
   async getById (id: string): Promise<User> {
     const user = await PostgresHelper.query(
       'SELECT * FROM users WHERE id = $1', [id])

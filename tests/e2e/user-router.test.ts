@@ -39,6 +39,28 @@ describe('UserRouter', () => {
         .expect(400)
     })
   })
+  describe('POST /api/v1/authenticate', () => {
+    test('Should return 200 on success', async () => {
+      await PostgresHelper.connect()
+      await request(app)
+        .post('/api/v1/authenticate')
+        .send({
+          password: '123',
+          email: '123@mail.com'
+        })
+        .expect(200)
+    })
+    test('Should return 401 if auth fails', async () => {
+      await PostgresHelper.connect()
+      await request(app)
+        .post('/api/v1/authenticate')
+        .send({
+          password: '1234',
+          email: '123@mail.com'
+        })
+        .expect(401)
+    })
+  })
   describe('PUT /api/v1/users/:id', () => {
     test('Should return 200 on success', async () => {
       await PostgresHelper.connect()

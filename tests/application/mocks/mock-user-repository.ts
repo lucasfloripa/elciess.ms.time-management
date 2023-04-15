@@ -5,6 +5,10 @@ import { mockUser } from '../../domain/mocks'
 
 export const mockUserRepository = (): UserRepository => {
   class UserRepositoryStub implements UserRepository {
+    async loadByEmail (email: string): Promise<User | null> {
+      return await Promise.resolve(mockUser)
+    }
+
     async getById (userId: string): Promise<User | null> {
       return await Promise.resolve(mockUser)
     }
