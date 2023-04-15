@@ -50,7 +50,7 @@
   "lint-staged": {
     "**/*.ts": [
       "eslint 'src/**' --fix",
-      "npm run test:unit",
+      "npm run test:staged",
       "git add"
     ]
   },
